@@ -66,7 +66,7 @@ const mainTemplate = `
 <loading class="app-error-message" v-else :error="loadErr"></loading>
 `.trim();
 
-const socksInterface = "/sshwifty/socket";
+const socksInterface = "/ff7dc5c2-b259-9ef6-b447-db9df7a4db22/sshwifty/socket";
 const socksVerificationInterface = socksInterface + "/verify";
 const socksKeyTimeTruncater = 100 * 1000;
 

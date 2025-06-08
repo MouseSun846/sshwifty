@@ -35,7 +35,7 @@ var (
 )
 
 const (
-	assetsURLPrefix    = "/sshwifty/assets/"
+	assetsURLPrefix    = "/ff7dc5c2-b259-9ef6-b447-db9df7a4db22/sshwifty/assets/"
 	assetsURLPrefixLen = len(assetsURLPrefix)
 )
 
@@ -76,12 +76,12 @@ func (h handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	w.Header().Add("Date", time.Now().UTC().Format(time.RFC1123))
 
 	switch r.URL.Path {
-	case "/":
+	case "/ff7dc5c2-b259-9ef6-b447-db9df7a4db22":
 		err = serveController(h.homeCtl, w, r, clientLogger)
 
-	case "/sshwifty/socket":
+	case "/ff7dc5c2-b259-9ef6-b447-db9df7a4db22/sshwifty/socket":
 		err = serveController(h.socketCtl, w, r, clientLogger)
-	case "/sshwifty/socket/verify":
+	case "/ff7dc5c2-b259-9ef6-b447-db9df7a4db22/sshwifty/socket/verify":
 		err = serveController(h.socketVerifyCtl, w, r, clientLogger)
 
 	case "/robots.txt":

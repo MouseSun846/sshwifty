@@ -43,6 +43,9 @@ $ docker run --detach \
   --publish 8182:8182 \
   --name sshwifty \
   niruix/sshwifty:latest
+
+
+   docker run -itd   --restart always   -p 8182:8182      --name sshwifty   docker.1ms.run/niruix/sshwifty:latest
 ```
 
 (Note: it's `niruix/sshwifty` with an `x`)
@@ -64,13 +67,13 @@ to import certificate files to the container and automatically apply them:
 ```shell
 $ openssl req \
   -newkey rsa:4096 -nodes -keyout domain.key -x509 -days 90 -out domain.crt
-$ docker run --detach \
+$ docker run -itd \
   --restart always \
-  --publish 8182:8182 \
+  -p 8182:8182 \
   --env SSHWIFTY_DOCKER_TLSCERT="$(cat domain.crt)" \
   --env SSHWIFTY_DOCKER_TLSCERTKEY="$(cat domain.key)" \
   --name sshwifty \
-  niruix/sshwifty:latest
+  docker.1ms.run/niruix/sshwifty:latest
 ```
 
 The `domain.crt` and `domain.key` in the command above is the location of valid

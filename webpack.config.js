@@ -190,7 +190,7 @@ export default {
   },
   devtool: inDevMode ? "inline-source-map" : "source-map",
   output: {
-    publicPath: "/sshwifty/assets/",
+    publicPath: "/ff7dc5c2-b259-9ef6-b447-db9df7a4db22/sshwifty/assets/",
     path: path.join(__dirname, ".tmp", "dist"),
     filename: "[name]-[contenthash:8].js",
     chunkFormat: "array-push",
