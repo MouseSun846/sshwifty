@@ -506,6 +506,10 @@ function getAuthMethodFromStr(d) {
   }
 }
 
+export function shouldKeepCredentialForKnownRemote(authentication, fromPreset) {
+  return fromPreset || authentication === "Password";
+}
+
 class Wizard {
   /**
    * constructor
@@ -732,8 +736,13 @@ class Wizard {
           self.stepCredentialPrompt(rd, sd, config, (newCred, fromPreset) => {
             sessionData.credential = newCred;
 
-            // Save the credential if the credential was from a preset
-            if (fromPreset && keptSessions.indexOf("credential") < 0) {
+            if (
+              shouldKeepCredentialForKnownRemote(
+                configInput.authentication,
+                fromPreset,
+              ) &&
+              keptSessions.indexOf("credential") < 0
+            ) {
               keptSessions.push("credential");
             }
           }),

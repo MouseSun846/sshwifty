@@ -35,8 +35,9 @@ var (
 )
 
 const (
-	assetsURLPrefix    = "/ff7dc5c2-b259-9ef6-b447-db9df7a4db22/sshwifty/assets/"
-	assetsURLPrefixLen = len(assetsURLPrefix)
+	appURLPrefix          = "/ff7dc5c2-b259-9ef6-b447-db9df7a4db22"
+	assetsURLPrefix       = appURLPrefix + "/sshwifty/assets/"
+	legacyAssetsURLPrefix = "/sshwifty/assets/"
 )
 
 // handler is the main service dispatcher
@@ -76,12 +77,12 @@ func (h handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	w.Header().Add("Date", time.Now().UTC().Format(time.RFC1123))
 
 	switch r.URL.Path {
-	case "/ff7dc5c2-b259-9ef6-b447-db9df7a4db22":
+	case appURLPrefix, appURLPrefix + "/", "/":
 		err = serveController(h.homeCtl, w, r, clientLogger)
 
-	case "/ff7dc5c2-b259-9ef6-b447-db9df7a4db22/sshwifty/socket":
+	case appURLPrefix + "/sshwifty/socket", "/sshwifty/socket":
 		err = serveController(h.socketCtl, w, r, clientLogger)
-	case "/ff7dc5c2-b259-9ef6-b447-db9df7a4db22/sshwifty/socket/verify":
+	case appURLPrefix + "/sshwifty/socket/verify", "/sshwifty/socket/verify":
 		err = serveController(h.socketVerifyCtl, w, r, clientLogger)
 
 	case "/robots.txt":
@@ -120,8 +121,16 @@ func (h handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		if strings.HasPrefix(r.URL.Path, assetsURLPrefix) &&
 			strings.ToUpper(r.Method) == "GET" {
 			err = serveStaticCacheData(
-				r.URL.Path[assetsURLPrefixLen:],
-				staticFileExt(r.URL.Path[assetsURLPrefixLen:]),
+				r.URL.Path[len(assetsURLPrefix):],
+				staticFileExt(r.URL.Path[len(assetsURLPrefix):]),
+				w,
+				r,
+				clientLogger)
+		} else if strings.HasPrefix(r.URL.Path, legacyAssetsURLPrefix) &&
+			strings.ToUpper(r.Method) == "GET" {
+			err = serveStaticCacheData(
+				r.URL.Path[len(legacyAssetsURLPrefix):],
+				staticFileExt(r.URL.Path[len(legacyAssetsURLPrefix):]),
 				w,
 				r,
 				clientLogger)
